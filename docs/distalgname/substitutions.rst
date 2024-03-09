@@ -1,2 +1,2 @@
-.. |DistAlgName| replace:: Distributed Algorithm Name 
+.. |byzantine| replace:: Distributed Algorithm Name 
 
