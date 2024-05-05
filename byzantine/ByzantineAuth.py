@@ -40,19 +40,15 @@ class BANode(threading.Thread):
         Entry point for thread execution.
         Initializes the broadcast if the node is the general.
         """
-        # global global_node_count, num_nodes
-        # with global_lock:
-        #     global_node_count = global_node_count + 1
-        # while global_node_count != num_nodes :
-        #     time.sleep(0.1)
+
         if self.is_general:
-            time.sleep(1)  # Wait for all nodes to be ready
+            time.sleep(1)  
             if self.is_byzantine:
                 self.broadcast_initial_value(random.choice(["ACCEPT","REJECT"]), 0)
             else:
                 self.broadcast_initial_value("ACCEPT", 0)
         while not self.stop_event.is_set():
-            time.sleep(0.1)  # Sleep briefly to reduce CPU usage
+            time.sleep(0.1)  
         
 
     def sign(self, data):
@@ -113,22 +109,20 @@ class BANode(threading.Thread):
         :param tuple message: The received message.
         :param int pulse: The pulse number when the message was sent.
         """
-        #print(f"Node {self.node_id} received message at pulse {pulse} with value {message[0]}")
         value, signature_chain = message
         if self.validate_message(value, signature_chain) and pulse <= self.k:
             # Store the value if valid
             received_value = value if not self.is_byzantine else random.choice(["ACCEPT","REJECT"])
-            #print(f"Node {self.node_id} stored value {received_value} at pulse {pulse}")
             self.values_q[pulse].append(received_value)
             if pulse < self.k:
                 # Propagate the message to the next pulse with added signature
-                #print(f"node {self.node_id} :  val {pulse}")
+
                 next_pulse = pulse + 1
                 new_signature_chain = signature_chain + [(self.node_id, self.sign(received_value))]
                 new_message = (received_value, new_signature_chain)
                 self.broadcast_message(new_message,next_pulse)
             elif pulse == self.k:
-                #print(f"node {self.node_id} :  val {pulse}")
+
                 self.decide()
                 self.stop_event.set()  # Signal the run loop to stop
 
@@ -142,8 +136,6 @@ class BANode(threading.Thread):
         :return: True if the message is valid, False otherwise.
         """
         # Check all signatures are valid and from distinct nodes
-        # if any(node_id in self.received_signatures[pulse] for node_id, _ in signature_chain):
-        #     return False  # Duplicate signature detected
         with global_lock:
             seen_nodes = set()
             for node_id, signature in signature_chain:
@@ -161,8 +153,6 @@ class BANode(threading.Thread):
         """
         # Retrieve the list of values received in the last pulse (communication round).
         last_pulse_values = self.values_q[self.k]
-        # [print(i,end=' ') for i in last_pulse_values]
-        # print("\n")
         decision_count = Counter(last_pulse_values)
         # Check if all values in the last pulse are the same (consensus reached).
         # The 'set' data structure is used to eliminate duplicates; if the set size is 1, all values are the same.
@@ -170,7 +160,7 @@ class BANode(threading.Thread):
         decision, count = decision_count.most_common(1)[0]
         majority_threshold = (len(self.nodes) - 1) // 2 + 1
 
-        #print(f"BANode {self.node_id} decided on: {decision}")
+
         if count >= majority_threshold:  # all must agree
             temp_final_decision = 0
             if count >= majority_threshold:
@@ -178,9 +168,7 @@ class BANode(threading.Thread):
             else:
                 temp_final_decision = decision if not self.is_byzantine else random.choice(["ACCEPT", "REJECT"])
             self.final_decision = temp_final_decision
-            #print(f"Node {self.node_id} decided on: {final_decision}")
-        # else:
-            #print(f"Node {self.node_id} could not reach a consensus.")
+
 
     def stop(self):
         """
@@ -208,10 +196,6 @@ def main():
 
     for node in network:
         node.start()
-    # with global_lock:
-    #     [print(i) for i in network]
-    #     print("\n")
-    #time.sleep(3)  # Allow time for the network to process
 
     for node in network:
         node.join()

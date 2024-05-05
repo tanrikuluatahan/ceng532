@@ -12,11 +12,10 @@ byzantine_count = 0
 node_count = 0
 global_inited_count = 0
 
-# Define the events and states
-# Maybe other events come in v2
+
 class EventType(Enum):
     """
-    Defines the types of events that can occur in the Byzantine consensus algorithm.
+    Enumeration for the types of events that can occur in the Byzantine consensus algorithm.
     """
     VOTE = "VOTE"
     ECHO = "ECHO"
@@ -25,7 +24,7 @@ class EventType(Enum):
 
 class State(Enum):
     """
-    Represents the state of a Byzantine consensus node.
+    Enumeration for possible states of a Byzantine consensus node.
     """
     UNDECIDED = "UNDECIDED"
     DECIDED = "DECIDED"
@@ -33,11 +32,11 @@ class State(Enum):
 # Base event data structure
 class Event:
     """
-    Base class for event data structure in Byzantine consensus process.
+    Represents an event in the Byzantine consensus process.
 
-    :param event_type: The type of the event.
-    :param source: The source node of the event.
-    :param vote: The vote (if applicable) associated with the event.
+    :param EventType event_type: The type of the event.
+    :param source: The node that originated the event.
+    :param int vote: The vote associated with the event, if applicable.
     """
     def __init__(self, event_type, source, vote=None):
         self.event_type = event_type
@@ -75,11 +74,11 @@ class BCNode(Thread):
         self.decided_value = None
 
 
-    """
-        Main execution loop of the node, processing incoming events until timeout.
-        But it is going to be changed.
-        """
+    
     def run(self):
+        """
+        Main execution loop of the node, processing incoming events until timeout.
+        """
         with global_lock:
             self.send_init()
         while True:
@@ -90,7 +89,7 @@ class BCNode(Thread):
                 if self.state == State.UNDECIDED:
                     print(f"{self.name} timed out without deciding.")
                 break
-    ###
+
 
     def handle_event(self, event):
         """
@@ -117,7 +116,9 @@ class BCNode(Thread):
 
     def on_init(self, event):
         """
-        Handles the INIT event. Typically used to start the voting process or acknowledge the initialization of other nodes.
+        Handles the INIT event, either by starting the voting process or acknowledging other nodes' initialization.
+
+        :param Event event: The event instance.
         """
         with global_lock:
             if event.source != self:
@@ -126,11 +127,10 @@ class BCNode(Thread):
 
     def on_vote(self, event):
         """
-        Handles a VOTE event, either by echoing the vote or sending randomized votes if Byzantine.
+        Handles a VOTE event by either echoing the vote directly or, if Byzantine, potentially altering the vote before echoing.
 
-        :param event: The event containing the vote to handle.
+        :param Event event: The event containing the vote.
         """
-        
         if self.state == State.DECIDED:
             return
 
@@ -144,19 +144,14 @@ class BCNode(Thread):
             # Echo the current node's vote to other processes
             self.broadcast(EventType.ECHO, vote=event.vote)
 
-    # '''
-    #  implement also a function that when a node receives a message from other nodes,
-    #  it should echo that message in a broadcast manner and wait for the n("all nodes")/2
-    #  confirmation echoes ,which tells the current node whether the same message
-    #  had arrived from the same source to other different nodes, then process that message
-    # '''
+
 
     def on_echo(self, event):
         global byzantine_count
         """
-        Handles an ECHO event, counting votes and deciding if a majority is reached.
+        Handles an ECHO event by counting received echoes and deciding if a majority has been reached.
 
-        :param event: The event containing the echo to handle.
+        :param Event event: The event containing the echo.
         """
         if self.state == State.DECIDED:
             return
@@ -166,29 +161,14 @@ class BCNode(Thread):
             self.echo_counts[event.vote] += 1
             for vote, count in self.echo_counts.items():
                 if count > (len(self.nodes.keys()) + byzantine_count) / 2:
-                    # print(self.nodes.values())
-                    # print(self.name)
-                    # print(vote,count)
                     self.decide(vote)
 
-    def on_decide(self, event):
-        """
-        Handles a DECIDE event, finalizing the decision.
-
-        :param event: The event containing the decision to finalize.
-        """
-
-        # if self.state == State.DECIDED:
-        #     return
-        #print(f"RET: {event.source.name}")
-        #print(f'Event source name: {event.source.name} decided on value {event.vote}')
-        #self.decide(event.vote)
 
     def decide(self, vote):
         """
-        Finalizes the decision for this node based on received votes.
+        Finalizes the decision based on the most common received vote.
 
-        :param vote: The majority vote that leads to a decision.
+        :param int vote: The vote that this node has decided upon.
         """
         self.state = State.DECIDED
         self.decided_value = vote
@@ -198,7 +178,7 @@ class BCNode(Thread):
 
     def broadcast_vote(self):
         """
-        Broadcasts the node's vote to other processes.
+        Broadcasts the node's initial vote to all other nodes.
         """
         global node_count
         if global_inited_count != node_count:
@@ -209,10 +189,10 @@ class BCNode(Thread):
 
     def broadcast(self, event_type, vote):
         """
-        Broadcasts an event to all other nodes except itself.
+        Sends an event to all other nodes.
 
-        :param event_type: The type of the event to broadcast.
-        :param vote: The vote to include in the event, if applicable.
+        :param EventType event_type: The type of the event to broadcast.
+        :param int vote: The vote to be included in the broadcast, if applicable.
         """
         for component in  self.nodes.values():
             if component.name != self.name:
@@ -220,6 +200,9 @@ class BCNode(Thread):
                 component.queue.put(event)
 
 def setup_simulation():
+    """
+    Initializes and starts a network of nodes participating in the Byzantine consensus algorithm.
+    """
     global byzantine_count, node_count
     nodes = {name: BCNode(name, None, is_byzantine=(name == 'Node3')) for name in ['Node1', 'Node2', 'Node3', 'Node4','Node5', 'Node6', 'Node7', 'Node8', 'Node9', 'Node10', 'Node11', 'Node12','Node13']}
     nodes['Node4'].is_byzantine = True
