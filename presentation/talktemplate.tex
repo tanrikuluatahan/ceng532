@@ -35,7 +35,7 @@
 \def\false{\textbf{F}}
 
 
-\author[John Doe]{John Doe\\\href{mailto:john@example.com}{john@example.com}}
+\author[Mustafa Atahan Tanrıkulu]{Mustafa Atahan Tanrıkulu\\\href{mailto:atahan.tanrikulu@metu.edu.tr}{atahan.tanrikulu@metu.edu.tr}}
 %\author[J.\,Doe \& J.\,Doe]
 %{%
 %  \texorpdfstring{
@@ -53,8 +53,8 @@
 %  {John Doe \& Jane Doe}
 %}
 
-\title[WINS Beamer Template]{WINS Lab Beamer Presentation Template}
-\subtitle[Short SubTitle]{How to Prepare a Nice Presentation}
+\title[Byzantine]{WINS Lab Byzantine Presentation}
+\subtitle[Byzantine]{WINS Lab Byzantine Presentation}
 %\date{} 
 
 \begin{document}
@@ -75,15 +75,16 @@
 \begin{frame}[label=toc]
     \frametitle{Outline of the Presentation}
     \tableofcontents[subsubsectionstyle=hide]
-\note{ The possible outline of a talk can be as follows.
-\begin{enumerate}
-\item Outline 
-\item Problem and background
-\item Design and methods
-\item Major findings
-\item Conclusion and recommendations 
-\end{enumerate} Please select meaningful section headings that represent the content rather than generic terms such as ``the problem''. Employ top-down structure: from general to more specific.
-}
+    
+    \note{ The possible outline of a talk can be as follows.
+    \begin{enumerate}
+        \item Outline 
+        \item Problem and background
+        \item Design and methods
+        \item Major findings
+        \item Conclusion and recommendations 
+    \end{enumerate} Please select meaningful section headings that represent the content rather than generic terms such as ``the problem''. Employ top-down structure: from general to more specific.
+    }
 \end{frame}
 %
 %\part{This the First Part of the Presentation}
@@ -96,14 +97,16 @@
 %        \sectionpage
 %\end{frame}
 
-\begin{frame}{The problem}
-\framesubtitle{Tell a \alert{STORY} from the background to the conclusion}
-\begin{block}{The Problem Name} 
-Explain the problem here. Instead of using the term `The problem'', please use specific name for the problem. Tell us a story. Provide a picture for the scenario depicting the problem. Set the scene for average audience.
-\end{block}
-Spend at least \textbf{1.5-2 minutes per slide} on average.
+\begin{frame}{Trust and Reliability in Distributed Networks}
+%\framesubtitle{Tell a \alert{STORY} from the background to the conclusion}
+\begin{block}{} 
+%Explain the problem here. Instead of using the term `The problem'', please use specific name for the problem. Tell us a story. Provide a picture for the scenario depicting the problem. Set the scene for average audience.
+\hspace{0.3cm}The narrative of the Byzantine Generals Problem elegantly encapsulates the essence of trust and reliability in distributed networks. 
 
-The introduction should be something like ``I will be presenting title of talk. This is joint work with your colleagues or advisor at institution.'' 
+\hspace{0.3cm}It sheds light on the fundamental challenge of designing systems robust enough to withstand the uncertainties and potential betrayals inherent in their operation, ensuring that the 'loyal' nodes can still function and agree on a common course of action, even in the presence of disruptive forces.
+\end{block}
+%Spend at least \textbf{1.5-2 minutes per slide} on average.
+%The introduction should be something like ``I will be presenting title of talk. This is joint work with your colleagues or advisor at institution.'' 
 \note{}
 \end{frame}
 
@@ -111,14 +114,22 @@ The introduction should be something like ``I will be presenting title of talk. 
 \begin{frame}
 \frametitle{What is the solution/contribution}
 \framesubtitle{}
-Explain \textbf{YOUR} contributions. Go top-down. Give the brief introduction to the contributions at the beginning of the presentation. A slide should have no more than five to six lines of text or bullets. Prefer figures instead of text: A picture is worth a thousand words.
+%Explain \textbf{YOUR} contributions. Go top-down. Give the brief introduction to the contributions at the beginning of the presentation. A slide should have no more than five to six lines of text or bullets. Prefer figures instead of text: A picture is worth a thousand words.
 \begin{itemize}
-\item Communicate the Key Ideas
-\item Don’t get Bogged Down in Details
-\item Use a Top-down Approach
+\item \textbf{Innovative Protocol Enhancements: }Developed new techniques that improve the efficiency and reliability of Byzantine fault-tolerant protocols, based on the foundational work of Bracha, Toueg, Lamport, Shostak, and Pease.
+\item \textbf{Real-world Testing and Validation: }Conducted rigorous evaluations in simulated real-world conditions to measure the performance and resilience of these enhanced protocols.
+\item \textbf{Practical Implementation Framework: } Created a guideline for implementing these protocols in current distributed systems, ensuring they are both practical and scalable.
+% I have enhanced Byzantine fault tolerance protocols, making them more efficient and reliable for modern distributed systems, backed by thorough testing and a practical implementation guide.
+% Imagine making our digital world safer and more reliable, where systems can withstand any internal failures or external attacks. My work takes the legendary concepts of Byzantine fault tolerance and ensuring they're not just theoretical marvels but practical solutions for today’s complex systems. This means we can trust our distributed networks to be robust, efficient, and resilient, no matter what.
+
+
+
+
+
+
 \end{itemize}
 
-The audience will remember at most one single message \textbf{Which message you want to audience to remember? Can you express this message in less than a minute in an elevator?}
+%The audience will remember at most one single message \textbf{Which message you want to audience to remember? Can you express this message in less than a minute in an elevator?}
 
 \end{frame}
 
@@ -126,10 +137,20 @@ The audience will remember at most one single message \textbf{Which message you 
 \section{Motivation/Importance}
 \begin{frame}
 \frametitle{Motivation/Importance}
-\framesubtitle{``Gain upon solving the problem, pain if not solved'' should be explained}
-Explain why the problem is so important. Throw in a little philosophy if necessary. How does the problem fit into the larger picture? If it involves a model of a real-world phenomenon, then how good is the model? What are its applications? What makes the problem nontrivial? You can return to these issues in the Conclusion, when you can re-address them with the benefit of hindsight.
+%\framesubtitle{``Gain upon solving the problem, pain if not solved'' should be explained}
+\framesubtitle{\hspace{0.3cm}Trying to reach agreement in systems with Byzantine faults is a complex task, requiring smart and creative solutions. This work is more than just a technical need; it is a vital effort to keep our digital and decentralized world stable and trustworthy. BFT acts as a crucial support for the smooth and secure running of modern technology, pushing us to not just understand it but to improve this key area.}
+%Explain why the problem is so important. Throw in a little philosophy if necessary. How does the problem fit into the larger picture? If it involves a model of a real-world phenomenon, then how good is the model? What are its applications? What makes the problem nontrivial? You can return to these issues in the Conclusion, when you can re-address them with the benefit of hindsight.
+\begin{itemize}
+\item \textbf{Byzantine fault tolerance (BFT) is extremely important for the
+reliability and safety of distributed systems, which are essential for key
+areas like banking, health services, and government work. Getting BFT
+right means building strong networks that can handle failures and
+threats without breaking down, keeping services running smoothly
+and data safe. The importance of solving BFT is huge: if we succeed,
+we make our digital world stronger, but if we fail, we could face
+serious system failures, data risks, and lose trust in our digital systems.}
+\end{itemize}
 \end{frame}
-
 \section{Background/Model/Definitions/Previous Works}
 
 

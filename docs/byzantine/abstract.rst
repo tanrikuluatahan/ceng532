@@ -3,6 +3,8 @@
 Abstract
 ========
 
+.. Investigating Byzantine fault tolerance in systems where many parts work together without a central timing mechanism is a tough challenge. It involves creating rules for agreement that stay strong even when some parts fail in unpredictable ways. This is crucial for keeping the system working smoothly, making sure all parts can agree, and staying strong against these failures. These rules are key to keeping the system safe and working well, even when facing tough conditions. The important work of Bracha and Toueg on these rules for agreement and message sharing helps tackle these challenges. They set up a way to handle faults that keeps the system working well and able to grow. Their work is very important for understanding how to reach agreement in systems where the behavior of parts is not certain. In our paper, we look closely at Bracha and Toueg’s methods, checking how they are built and how they work today. We examine how these methods can handle different kinds of failures, how they affect how well the system works, and how relevant they are to today's technology. Through detailed study and tests, we reveal how efficient and resilient these methods are, and what they mean for modern systems that work together. Our results show the lasting importance of Bracha and Toueg’s work, explaining its value both in theory and in practice for systems that need to be fault-tolerant. Our study confirms the basic importance of their methods and shows new directions for making systems more robust and effective when facing Byzantine failures.
+
 Write your abstract here.
 
 An abstract summarizes, in one paragraph (usually), the major aspects of the entire paper/report in the following prescribed sequence [Anderson2016]:

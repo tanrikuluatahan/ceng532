@@ -1,2 +1,2 @@
-.. |byzantine| replace:: Distributed Algorithm Name 
+.. |byzantine| replace:: Brasha-Toueg Byzantine Consensus Algorithm && Lamport-Shostak-Pease Authentication Algorithm
 

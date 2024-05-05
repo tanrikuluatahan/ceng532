@@ -4,3 +4,6 @@ sphinx-rtd-theme
 pydata-sphinx-theme
 sphinx-autodoc-typehints
 nbsphinx
+networkx
+matplotlib
+requests
