@@ -121,7 +121,7 @@ class BANode(threading.Thread):
                 new_signature_chain = signature_chain + [(self.node_id, self.sign(received_value))]
                 new_message = (received_value, new_signature_chain)
                 self.broadcast_message(new_message,next_pulse)
-            elif pulse == self.k:
+            elif pulse == (self.k ):
 
                 self.decide()
                 self.stop_event.set()  # Signal the run loop to stop
@@ -136,15 +136,15 @@ class BANode(threading.Thread):
         :return: True if the message is valid, False otherwise.
         """
         # Check all signatures are valid and from distinct nodes
-        with global_lock:
-            seen_nodes = set()
-            for node_id, signature in signature_chain:
-                if node_id in seen_nodes:
-                    return False  # Prevents the same node from signing multiple times in a single chain
-                if not self.verify_signature(value, signature, self.nodes[node_id].key.publickey()):
-                    return False  # Verification failed
-                seen_nodes.add(node_id)
-            return True  # All signatures are valid and from distinct nodes
+
+        seen_nodes = set()
+        for node_id, signature in signature_chain:
+            if node_id in seen_nodes:
+                return False  # Prevents the same node from signing multiple times in a single chain
+            if not self.verify_signature(value, signature, self.nodes[node_id].key.publickey()):
+                return False  # Verification failed
+            seen_nodes.add(node_id)
+        return True  # All signatures are valid and from distinct nodes
 
 
     def decide(self):
@@ -159,7 +159,8 @@ class BANode(threading.Thread):
 
         decision, count = decision_count.most_common(1)[0]
         majority_threshold = (len(self.nodes) - 1) // 2 + 1
-
+        for i in range(len(self.values_q)):
+            print(f"{self.values_q[i]}, NODE : {self.node_id}")
 
         if count >= majority_threshold:  # all must agree
             temp_final_decision = 0
@@ -189,9 +190,9 @@ def setup_network(num_nodes, k, byzantine_nodes):
 
 def main():
     global num_nodes
-    num_nodes = 12
-    k = 4  # Number of pulses
-    byzantine_nodes = {1,3,4}
+    num_nodes = 4
+    k = 1  # Number of pulses
+    byzantine_nodes = {1}
     network = setup_network(num_nodes, k, byzantine_nodes)
 
     for node in network:

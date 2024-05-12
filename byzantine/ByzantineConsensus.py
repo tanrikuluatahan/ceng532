@@ -4,6 +4,9 @@ from threading import Thread
 from time import sleep
 import random
 from threading import Lock
+import networkx as nx
+import matplotlib.pyplot as plt
+import sys
 
 
 global_lock = Lock()
@@ -79,8 +82,8 @@ class BCNode(Thread):
         """
         Main execution loop of the node, processing incoming events until timeout.
         """
-        with global_lock:
-            self.send_init()
+        #with global_lock:
+        self.send_init()
         while True:
             try:
                 event = self.queue.get(timeout=3)  # Timeout for simulation
@@ -120,10 +123,10 @@ class BCNode(Thread):
 
         :param Event event: The event instance.
         """
-        with global_lock:
-            if event.source != self:
-                print(f"{self.name} acknowledges the initialization of {event.source.name}.")
-            self.broadcast_vote()
+        # with global_lock:
+        if event.source != self:
+            print(f"{self.name} acknowledges the initialization of {event.source.name}.")
+        self.broadcast_vote()
 
     def on_vote(self, event):
         """
@@ -157,12 +160,15 @@ class BCNode(Thread):
             return
 
         # Count the echoes come from other nodes and decide if there is a majority
-        with global_lock:
-            self.echo_counts[event.vote] += 1
-            for vote, count in self.echo_counts.items():
-                if count > (len(self.nodes.keys()) + byzantine_count) / 2:
-                    self.decide(vote)
+        # with global_lock:
+        self.echo_counts[event.vote] += 1
+        for vote, count in self.echo_counts.items():
+            if count > (len(self.nodes.keys()) + byzantine_count) / 2:
+                self.decide(vote)
 
+    def on_decide(self,msg):
+        #print(msg.event_type,msg.vote,msg.source)
+        pass
 
     def decide(self, vote):
         """
@@ -181,8 +187,8 @@ class BCNode(Thread):
         Broadcasts the node's initial vote to all other nodes.
         """
         global node_count
-        if global_inited_count != node_count:
-            sleep(0.05)
+        #if global_inited_count != node_count:
+        #    sleep(0.05)
         
         if not self.is_byzantine:
             self.broadcast(EventType.VOTE, vote=self.vote)
@@ -204,9 +210,7 @@ def setup_simulation():
     Initializes and starts a network of nodes participating in the Byzantine consensus algorithm.
     """
     global byzantine_count, node_count
-    nodes = {name: BCNode(name, None, is_byzantine=(name == 'Node3')) for name in ['Node1', 'Node2', 'Node3', 'Node4','Node5', 'Node6', 'Node7', 'Node8', 'Node9', 'Node10', 'Node11', 'Node12','Node13']}
-    nodes['Node4'].is_byzantine = True
-    nodes['Node10'].is_byzantine = True
+    nodes = {name: BCNode(name, None, is_byzantine=(name == 'Node3')) for name in ['Node1', 'Node2', 'Node3', 'Node4','Node5']}
     node_count = len(nodes.keys())
     byzantine_count += 3
     for node in nodes.values():

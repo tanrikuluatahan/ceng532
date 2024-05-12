@@ -1,0 +1,25 @@
+Source Node,Message,Signature_chain,Delivered Node,Pulse
+4,ACCEPT,[4],7,0
+4,ACCEPT,[4],8,0
+4,ACCEPT,[4],6,0
+4,ACCEPT,[4],1,0
+4,ACCEPT,[4],0,0
+4,ACCEPT,[4],3,0
+4,ACCEPT,[4],9,0
+7,ACCEPT,"[4, 7]",4,0
+4,ACCEPT,[4],2,0
+7,ACCEPT,"[4, 7]",5,0
+7,ACCEPT,"[4, 7]",1,0
+7,ACCEPT,"[4, 7]",2,0
+7,ACCEPT,"[4, 7]",8,0
+1,ACCEPT,"[4, 1]",7,0
+4,ACCEPT,[4],5,0
+8,ACCEPT,"[4, 8]",7,0
+7,ACCEPT,"[4, 7]",0,0
+7,ACCEPT,"[4, 7]",3,0
+1,ACCEPT,"[4, 1]",4,0
+2,REJECT,"[4, 2]",7,0
+1,ACCEPT,"[4, 1]",8,0
+8,ACCEPT,"[4, 8]",1,0
+2,REJECT,"[4, 2]",8,0
+1,ACCEPT,"[4, 1]",2,0

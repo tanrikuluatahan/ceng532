@@ -5,6 +5,6 @@ Code Documentation
    :toctree: generated
    :recursive:
 
-   byzantine.ByzantineAuth
+   byzantine.ConveniantByzantineAuth
 
-   byzantine.ByzantineConsensus
+   byzantine.ConveniantByzantineConsensus

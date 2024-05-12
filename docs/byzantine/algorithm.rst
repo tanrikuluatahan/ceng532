@@ -151,14 +151,50 @@ For the Lamport-Shostak-Pease Authentication, lets assuma in a distributed syste
 
 Correctness
 ~~~~~~~~~~~
-// TODO IN LATER STAGES ^.^
-Present Correctness, safety, liveness and fairness proofs.
+Bracha-Toueg Byzantine Consensus Algorithm
+------------------------------------------
+The Bracha-Toueg algorithm is designed to achieve consensus despite the presence of Byzantine faults. It ensures:
+
+- **Validity**: If all non-faulty processes start with the same value, they will decide on that value.
+- **Agreement**: No two non-faulty processes decide differently.
+- **Termination**: Every non-faulty process eventually decides on a value.
+
+The algorithm employs additional communication rounds to ensure that enough information is gathered to overcome any false or misleading information disseminated by Byzantine nodes. It uses a mechanism of gradually expanding "echo" phases to ensure that the information is corroborated by a sufficient number of nodes before a decision is made.
+
+
+Lamport-Shostak-Pease Authentication Algorithm
+----------------------------------------------
+The correctness of the Lamport-Shostak-Pease algorithm hinges on the use of cryptographic techniques (digital signatures) to authenticate messages, which prevents Byzantine nodes from falsifying the origin of a message:
+
+- **Validity**: If the general is non-faulty, all non-faulty lieutenants agree on the general's value.
+- **Agreement**: Non-faulty lieutenants cannot be convinced to accept a value that was not sent by the general, assuming the cryptographic system is secure.
+- **Termination**: The protocol terminates after k + 1 rounds, where *k* is the maximum number of faulty nodes the system is designed to handle.
+
+
+.. // TODO IN LATER STAGES ^.^
+.. Present Correctness, safety, liveness and fairness proofs.
 
 
 Complexity 
 ~~~~~~~~~~
+Bracha-Toueg Byzantine Consensus Algorithm
+------------------------------------------
 
-Present theoretic complexity results in terms of number of messages and computational complexity.
+- **Message Complexity**: O(n²) per round, where *n* is the number of nodes. Since the algorithm runs through a constant number of rounds (three rounds), the total message complexity is also O(n²).
+- **Computational Complexity**: Each node performs checks on messages from all other nodes to validate their contents and signatures (if digital signatures are used), leading to O(n) computational steps per node per round.
+
+
+Lamport-Shostak-Pease Authentication Algorithm
+----------------------------------------------
+
+
+- **Message Complexity**: In each round, every lieutenant must send messages to every other lieutenant. Hence, the message complexity is O(n²) per round. Over k + 1 rounds, this leads to a total complexity of O(kn²).
+- **Computational Complexity**: Each verification involves a cryptographic check, which is computationally more intensive than regular message validation. The computational complexity per round per node can be assumed O(n) due to these cryptographic operations, leading to a total complexity of O(kn).
+
+
+.. Present theoretic complexity results in terms of number of messages and computational complexity.
+
+Both algorithms are designed to ensure reliability and consistency within a distributed system subject to Byzantine failures, albeit through different mechanisms — Bracha-Toueg through redundant communication and Lamport-Shostak-Pease through cryptographic authentication. The choice between the two methods would depend on the specific requirements of the system, including network conditions, expected number of Byzantine faults, and the computational power available to each node. These factors will influence whether the emphasis should be on reducing communication overhead or enhancing security through cryptographic means.
 
 
 

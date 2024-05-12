@@ -124,7 +124,7 @@ class Node(GenericModel):
 
 def main():
   #setAHCLogLevel(DEBUG)
-  topo = Topology();
+  topo = Topology()
   topo.construct_single_node(Node, 0)
   topo.start()
   time.sleep(1)
